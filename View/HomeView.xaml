@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="fitnessTrackerApp.View.HomeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:fitnessTrackerApp.View"
+             
+             xmlns:vm="clr-namespace:fitnessTrackerApp.ViewModel"
+             xmlns:utils="clr-namespace:fitnessTrackerApp.Utilities"
+             
+             mc:Ignorable="d"
+             d:DesignHeight="700" d:DesignWidth="850"
+             Background="Transparent">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <utils:InverseBoolConverter x:Key="InverseBoolConverter"/>
+    </UserControl.Resources>
+
+    <Border CornerRadius="0,20,20,0" Background="Black">
+        <Grid x:Name="AnimatedContainer" Style="{StaticResource PageStyle}" Margin="0,-40,0,40">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="9*"/>
+                <RowDefinition Height="41*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Background="Transparent" Foreground="White"  Text="{Binding CurrentPage}"
+                     VerticalAlignment="Top" HorizontalAlignment="Center" 
+                     FontSize="20" TextWrapping="WrapWithOverflow" TextAlignment="Center" 
+                     Height="130" Width="318" Margin="0,63,0,0" Grid.RowSpan="2"/>
+
+            <!--login design-->
+
+            <Grid Margin="0,1,0,53" Grid.Row="1" Background="Transparent">
+                <Border Width="500" Height="450" Background="#9057e3" CornerRadius="15">
+
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="1000" Direction ="-90" 
+                              RenderingBias="Quality" ShadowDepth ="10" 
+                              Color ="#002df8" />
+                    </Border.Effect>
+
+                    <StackPanel Orientation="Vertical" Margin="30">
+                        <Grid VerticalAlignment="Center">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Email stackpanel-->
+                            <StackPanel Orientation="Vertical" 
+                                 Visibility="{Binding ShowSignUpPanel, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,-10,0,0">
+                                <TextBlock Text="Email" Style="{StaticResource DefaultTextBlock}"/>
+                                <TextBox Margin="0,5,0,0" Style="{StaticResource ModernTextBox}" Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+
+                            <!-- Username and Password fields-->
+                            <TextBlock Text="User Name" Grid.Row="1" Style="{StaticResource DefaultTextBlock}"/>
+                            <TextBox x:Name="LoginInput" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}"
+                                     Grid.Row="2" Style="{StaticResource ModernTextBox}"/>
+
+                            <TextBlock Text="Password" Grid.Row="3" Style="{StaticResource DefaultTextBlock}"/>
+                            <PasswordBox x:Name="PasswordInput" Grid.Row="4" Style="{StaticResource ModernPasswordBox}"/>
+
+                        </Grid>
+
+                        <Button x:Name="loginBtn" Content="Login" Margin="0,25" 
+                                Visibility="{Binding ShowSignUpPanel, Converter={StaticResource InverseBoolConverter}}"
+                                Height="50" Width="150" FontSize="25" Style="{StaticResource ButtonBase}"
+                                Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=PasswordInput}"/>
+
+                        <Button Content="Not a member?" Margin="0,5" 
+                                Visibility="{Binding ShowSignUpPanel, Converter={StaticResource InverseBoolConverter}}"
+                                Background="Transparent" Foreground="Black" BorderBrush="Transparent" 
+                                VerticalAlignment="Bottom" HorizontalAlignment="Center" Command="{Binding ToggleSignUpCommand}">
+                        </Button>
+
+                        <StackPanel Visibility="{Binding ShowSignUpPanel, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Button x:Name="signUpBtn" Content="Sign Up" Margin="0,20" 
+                                Width="150" Height="50" FontSize="25"
+                                Style="{StaticResource ButtonBase}" 
+                                Command="{Binding RegisterCommand}" CommandParameter="{Binding ElementName=PasswordInput}"/>
+
+                            <Button Content="Go Back" Width="100" Height="35" FontSize="20"
+                                Style="{StaticResource ButtonBase}" Command="{Binding ToggleSignUpCommand}"/>
+                        </StackPanel>
+
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+        </Grid>
+    </Border>
+</UserControl>

@@ -1,0 +1,26 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vm="clr-namespace:fitnessTrackerApp.ViewModel"
+                    xmlns:view="clr-namespace:fitnessTrackerApp.View">
+
+    <DataTemplate DataType="{x:Type vm:HomeVM}">
+        <view:HomeView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:CompletedWorkoutsVM}">
+        <view:CompletedWorkoutsView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:CurrentWorkoutVM}">
+        <view:CurrentWorkoutView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:SettingsVM}">
+        <view:SettingsView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:LoggedInVM}">
+        <view:LoggedInView/>
+    </DataTemplate>
+
+</ResourceDictionary>
