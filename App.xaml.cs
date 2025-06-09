@@ -1,4 +1,6 @@
-﻿using fitnessTrackerApp.Model;
+﻿//This code defines the App class for a WPF application, initializing a shared PageModel,
+//setting up the database, and launching the main window when the application starts
+using fitnessTrackerApp.Model;
 using fitnessTrackerApp.Utilities;
 using System.Windows;
 

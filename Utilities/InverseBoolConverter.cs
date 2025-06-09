@@ -1,4 +1,4 @@
-﻿using System;
+﻿//value converter that returns Visibility.Visible when a bound boolean is false, and Visibility.Collapsed when it's true
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;

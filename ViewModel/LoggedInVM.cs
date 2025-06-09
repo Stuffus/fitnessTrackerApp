@@ -41,6 +41,7 @@ namespace fitnessTrackerApp.ViewModel
         {
             _pageModel = App.SharedPageModel;
 
+            //redirect user to the login page if isLoggedIn value is false(user not logged in)
             if (!_pageModel.isLoggedIn)
             {
                 App.Current.Dispatcher.InvokeAsync(() =>

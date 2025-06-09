@@ -1,4 +1,5 @@
-﻿using System;
+﻿//RelayCommand class implements ICommand to enable binding commands in MVVM
+//it wraps an Action<object> for execution and an optional Func<object, bool> to determine if the command can execute
 using System.Windows.Input;
 
 namespace fitnessTrackerApp.Utilities

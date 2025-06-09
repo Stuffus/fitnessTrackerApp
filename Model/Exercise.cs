@@ -1,4 +1,5 @@
-﻿namespace fitnessTrackerApp.Model
+﻿//initializing an Exercise class that will store values from the db
+namespace fitnessTrackerApp.Model
 {
     public class Exercise
     {

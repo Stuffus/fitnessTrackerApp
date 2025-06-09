@@ -28,20 +28,19 @@ namespace fitnessTrackerApp.ViewModel
             get { return _pageModel.workoutID;}
             set { _pageModel.workoutID = value; OnPropertyChanged(); }
         }
-
         public string WorkoutName
         {
             get { return _pageModel.workoutName; }
             set {  _pageModel.workoutName = value; OnPropertyChanged(); }
         }
         public ICommand ShowExercisesCommand { get; }
-
         public ObservableCollection<Workout> Workouts { get; set; } = new();
 
         public CompletedWorkoutsVM(PageModel pageModel)
         {
             _pageModel = App.SharedPageModel;
 
+            //redirect user to the login page if isLoggedIn value is false(user not logged in)
             if (!_pageModel.isLoggedIn)
             {
                 var nav = App.Current.MainWindow.DataContext as NavigationVM;
@@ -53,7 +52,7 @@ namespace fitnessTrackerApp.ViewModel
             ShowExercisesCommand = new RelayCommand(param => LoadExercises(param));
         }
 
-
+        //method that calls a GetWorkoutsWithExercises function for databasehelper class
         private void LoadExercises(object? param)
         {
             var workoutsFromDb = DatabaseHelper.GetWorkoutsWithExercises(_pageModel.userID);

@@ -1,4 +1,5 @@
-﻿<Application x:Class="fitnessTrackerApp.App"
+﻿<!-- This file defines global application resources in WPF by merging multiple resource dictionaries (styles, fonts, templates) for use throughout the app -->
+<Application x:Class="fitnessTrackerApp.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:fitnessTrackerApp">

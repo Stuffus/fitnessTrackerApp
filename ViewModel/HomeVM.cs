@@ -77,8 +77,10 @@ namespace fitnessTrackerApp.ViewModel
             set { _showSignUpPanel = value; OnPropertyChanged(); }
         }
 
+        //iccomand relay command that toggles visibility of a signup panel when user clicks a "not a member?" button
         public ICommand ToggleSignUpCommand => new RelayCommand(_ => ShowSignUpPanel = !ShowSignUpPanel);
 
+        //login function that uses ValidateUser function from the DatabaseHelper class for login validation
         private void DoLogin(object? parameter)
         {
             if (parameter is PasswordBox passwordBox)
@@ -99,6 +101,7 @@ namespace fitnessTrackerApp.ViewModel
 
         }
 
+        //registration function that uses RegisterUser function from the DatabaseHelper class for login validation
         private void DoRegister(object? parameter) 
         {
             if (parameter is PasswordBox passwordBox)
@@ -110,7 +113,7 @@ namespace fitnessTrackerApp.ViewModel
             }
             else
             {
-                CurrentPage = "Failure Registrating, Login and Password must have at least 4 characters";
+                CurrentPage = "Failure Registrating, Login and Password must have at least 4 characters, use a real email";
             }
         }
 

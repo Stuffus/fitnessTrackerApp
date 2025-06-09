@@ -1,4 +1,5 @@
-﻿using fitnessTrackerApp.Model;
+﻿//this is the class that handles all db operations
+using fitnessTrackerApp.Model;
 using Microsoft.Data.Sqlite;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -8,9 +9,11 @@ namespace fitnessTrackerApp.Utilities
 {
     public static partial class DatabaseHelper
     {
+        //database location, since the project utilizes SQLite the db is a local file
         private const string DbFilePath = "Data/fitness.db";
         private const string ConnectionString = $"Data Source={DbFilePath}";
 
+        //checking if the database exists, if not - creating one and establishing its schema
         public static void InitializeDatabase()
         {
             var folder = Path.GetDirectoryName(DbFilePath);
@@ -60,11 +63,13 @@ namespace fitnessTrackerApp.Utilities
             }
         }
 
+        //checks if db is empty and populates it with mock data 
         public static void PopulateDbIfEmpty()
         {
             using var connection = new SqliteConnection(ConnectionString);
             connection.Open();
 
+            //if the query returns no info => no users in it => db is empty
             var checkCommand = connection.CreateCommand();
             checkCommand.CommandText = "SELECT COUNT(*) FROM Users";
             var count = Convert.ToInt32(checkCommand.ExecuteScalar());
@@ -93,6 +98,7 @@ namespace fitnessTrackerApp.Utilities
             }
         }
 
+        //user login validation function, returns true if validation is successful
         public static bool ValidateUser(string username, string password)
         {
             using (var connection = new SqliteConnection(ConnectionString))
@@ -109,6 +115,7 @@ namespace fitnessTrackerApp.Utilities
 
                 if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 {
+                    //if the user imput is empty => return false without calling the function
                     return false;
                 }
 
@@ -121,6 +128,7 @@ namespace fitnessTrackerApp.Utilities
                     var count = Convert.ToInt32(result);
                     if (count == 0)
                     {
+                        //empty query response => no such user => return false
                         return false;
                     }
                     else
@@ -130,12 +138,14 @@ namespace fitnessTrackerApp.Utilities
                 }
                 catch (Exception ex)
                 {
+                    //return false if any issue happens while performing a query operation
                     return false;
                 }
             }
 
         }
 
+        //user registration function, returns true if registration is successful
         public static bool RegisterUser(string username, string password, string email)
         {
             // validate basic null/empty
@@ -181,6 +191,7 @@ namespace fitnessTrackerApp.Utilities
             }
         }
 
+        //function for getting the userid for later use
         public static int GetUserID(string username)
         {
             using (var connection = new SqliteConnection(ConnectionString))
@@ -196,6 +207,7 @@ namespace fitnessTrackerApp.Utilities
 
                 if (string.IsNullOrEmpty(username))
                 {
+                    //return zero if user with such username wasnt found
                     return 0;
                 }
                 command.Parameters.AddWithValue("$username", username);
@@ -203,7 +215,8 @@ namespace fitnessTrackerApp.Utilities
                 return result != null ? Convert.ToInt32(result) : 0;
             }
         }
-
+        
+        //function for getting the workoutid for later use
         public static int GetWorkoutID(string workoutName)
         {
             using (var connection = new SqliteConnection(ConnectionString))
@@ -227,6 +240,7 @@ namespace fitnessTrackerApp.Utilities
             }
         }
 
+        //function for creating a workout in db from userinput
         public static bool CreateWorkout(int userID, string workoutName) 
         {
             using var connection = new SqliteConnection(ConnectionString);
@@ -256,19 +270,23 @@ namespace fitnessTrackerApp.Utilities
             }
         }
 
+        //function for creating exercise in db from user input
         public static bool CreateExercise(int workoutID, int setNumber, string exerciseName, string? exerciseDescription, int repCount, double repWeight)
         {
-            // input validation
-            if (setNumber <= 0)
+            //setNumber must be greater than zero
+            if (setNumber < 0)
                 return false;
 
+            //exerciseName cannot be empty
             if (string.IsNullOrWhiteSpace(exerciseName))
                 return false;
 
-            if (repCount <= 0)
+            //repCount must be greater than zero
+            if (repCount < 0)
                 return false;
 
-            if (repWeight < 0)
+            //repWeight must be greater or equal to zero
+            if (repWeight <= 0)
                 return false;
 
             using var connection = new SqliteConnection(ConnectionString);
@@ -287,6 +305,7 @@ namespace fitnessTrackerApp.Utilities
 
             if (string.IsNullOrWhiteSpace(exerciseDescription))
             {
+                //since exerciseDescription is optional, set to NULL if empty
                 exerciseCommand.Parameters.AddWithValue("$exerciseDescription", DBNull.Value);
             }
             else
@@ -308,7 +327,7 @@ namespace fitnessTrackerApp.Utilities
             }
         }
 
-
+        //function for setting user weight (NULL by default since the information is optional)
         public static bool SetUserWeight(int userID, double userWeight)
         {
             using var connection = new SqliteConnection(ConnectionString);
@@ -335,6 +354,7 @@ namespace fitnessTrackerApp.Utilities
             }
         }
 
+        //function for obtaining all workout data by userid, returns a list of type Workout
         public static List<Workout> GetWorkoutsWithExercises(int userID)
         {
             var workoutsDict = new Dictionary<int, Workout>();
@@ -342,6 +362,8 @@ namespace fitnessTrackerApp.Utilities
             using var connection = new SqliteConnection(ConnectionString);
             connection.Open();
 
+            //this SQL query retrieves all workouts (with their id, name, and date) and any associated exercises (if present) for a specific user,
+            //ordered by workout ID and exercise set number, using a left join to ensure workouts without exercises are also included.
             var cmd = connection.CreateCommand();
             cmd.CommandText =
                 @"
@@ -368,13 +390,15 @@ namespace fitnessTrackerApp.Utilities
                 string workoutName = reader.IsDBNull(1) ? $"Workout {workoutID}" : reader.GetString(1);
                 DateTime workoutDate = reader.GetDateTime(2);
 
+                //check if a Workout object with a given workoutID exists in the workoutsDict dictionary;
+                //if it doesnt, create a new Workout with the specified ID, name, and date, and add it to the dictionary.
                 if (!workoutsDict.TryGetValue(workoutID, out var workout))
                 {
                     workout = new Workout(workoutID, workoutName, workoutDate);
                     workoutsDict[workoutID] = workout;
                 }
 
-                // exercise_name is not null
+                //if exercise_name is not null, create an Exercise object and fill its values with values obtained from the query 
                 if (!reader.IsDBNull(4))
                 {
                     var exercise = new Exercise(
@@ -386,16 +410,13 @@ namespace fitnessTrackerApp.Utilities
                         reader.GetDouble(7),                     
                         workoutDate                              
                     );
-
+                    //add the Exercise object into the workout list
                     workout.Exercises.Add(exercise);
                 }
             }
-
+            //return the workout list
             return workoutsDict.Values.ToList();
         }
-
-
-
     }
 }
 

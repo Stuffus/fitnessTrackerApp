@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using fitnessTrackerApp.Model;
-
+﻿//initializing variables that will be used in the viewmodels
 namespace fitnessTrackerApp.Model
 {
     public class PageModel
@@ -18,7 +15,6 @@ namespace fitnessTrackerApp.Model
         public string email { get; set; }
      
         public int workoutCount { get; set; }
-        public bool workoutInAction { get; set; }
         public int workoutID { get; set; }
         public string workoutName { get; set; }
         public double userWeight { get; set; }

@@ -1,4 +1,5 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<!-- data template for navigation. mapping viewmodel types to their corresponding views for a MVVM pattern-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:vm="clr-namespace:fitnessTrackerApp.ViewModel"
                     xmlns:view="clr-namespace:fitnessTrackerApp.View">

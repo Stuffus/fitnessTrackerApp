@@ -36,6 +36,8 @@ namespace fitnessTrackerApp.ViewModel
         public SettingsVM(PageModel pageModel) 
         {
             _pageModel = App.SharedPageModel;
+
+            //redirect user to the login page if isLoggedIn value is false(user not logged in)
             if (!_pageModel.isLoggedIn)
             {
                 var nav = App.Current.MainWindow.DataContext as NavigationVM;
@@ -50,6 +52,7 @@ namespace fitnessTrackerApp.ViewModel
             
         }
 
+        //method that uses SetUserWeight function from the DatabaseHelper class to set or update the user weight value in db
         private async void UpdateWeight(object? parameter) 
         {
             if (UserWeight < 30)

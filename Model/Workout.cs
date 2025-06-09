@@ -1,4 +1,6 @@
-﻿using fitnessTrackerApp.Model;
+﻿// initializing a Class Workout that will store the workout data from the db
+// as well as a list of exercises for that workout
+using fitnessTrackerApp.Model;
 
 public class Workout
 {

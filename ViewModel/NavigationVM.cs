@@ -1,8 +1,7 @@
-﻿using fitnessTrackerApp.Model;
+﻿//viewmodel that handles navigation
+using fitnessTrackerApp.Model;
 using fitnessTrackerApp.Utilities;
-using fitnessTrackerApp.View;
 using System.Windows.Input;
-using System.Windows.Navigation;
 
 namespace fitnessTrackerApp.ViewModel
 {

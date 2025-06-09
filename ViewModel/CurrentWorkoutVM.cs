@@ -77,6 +77,8 @@ namespace fitnessTrackerApp.ViewModel
         public CurrentWorkoutVM(PageModel pageModel)
         {
             _pageModel = App.SharedPageModel;
+
+            //redirect user to the login page if isLoggedIn value is false(user not logged in)
             if (!_pageModel.isLoggedIn)
             {
                 var nav = App.Current.MainWindow.DataContext as NavigationVM;
@@ -94,6 +96,7 @@ namespace fitnessTrackerApp.ViewModel
             set { _showBeginPanel = value; OnPropertyChanged(); }
         }
 
+        //creates a workout and changes the contents of a view for exercise creation
         private void DoWorkout(object? parameter)
         {
             if (DatabaseHelper.CreateWorkout(UserID, WorkoutName))
@@ -107,14 +110,17 @@ namespace fitnessTrackerApp.ViewModel
             }
         }
 
+        //create exercises from user input and CreateExercises dbhelper class function
         private async void DoExercise(object? parameter)
         {
             try
             {
                 if (DatabaseHelper.CreateExercise(WorkoutID, SetNumber, ExerciseName, ExerciseDescription, Convert.ToInt32(RepCount), Convert.ToDouble(RepWeight)))
                 {
+                    //increment setNumber by one after an exercise is created
                     SetNumber += 1;
                     ShowNotification = true;
+                    //wait 2 seconds and remove the notification
                     await Task.Delay(2000);
                     ShowNotification = false;
 
@@ -128,9 +134,11 @@ namespace fitnessTrackerApp.ViewModel
 
         }
 
+        //icommand that triggers a relaycommand when the button "End Workout" is pressed
         public ICommand ToggleBeginPanel => new RelayCommand(_ => 
             {
                 ShowBeginPanel = !ShowBeginPanel;
+                //set workout null to null ot avoid accidental duplicate workout names
                 WorkoutName = null;
             }
         );

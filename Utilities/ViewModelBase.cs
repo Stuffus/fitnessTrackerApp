@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿//ViewModelBase class implements INotifyPropertyChanged to support property change notifications in MVVM, allowing the UI to update when bound property values change
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace fitnessTrackerApp.Utilities
