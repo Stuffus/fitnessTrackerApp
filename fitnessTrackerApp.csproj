@@ -9,11 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Fonts\Satoshi-Black.ttf" />
-    <None Remove="Fonts\Satoshi-BlackItalic.ttf" />
-    <None Remove="Fonts\Satoshi-Bold.ttf" />
-    <None Remove="Fonts\Satoshi-BoldItalic.ttf" />
-    <None Remove="Fonts\Satoshi-Regular.ttf" />
     <None Remove="Images\img_home.png" />
     <None Remove="Images\img_product.png" />
     <None Remove="Images\img_setting.png" />
@@ -28,11 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Fonts\Satoshi-Black.ttf" />
-    <Resource Include="Fonts\Satoshi-BlackItalic.ttf" />
-    <Resource Include="Fonts\Satoshi-Bold.ttf" />
-    <Resource Include="Fonts\Satoshi-BoldItalic.ttf" />
-    <Resource Include="Fonts\Satoshi-Regular.ttf" />
     <Resource Include="Images\img_user.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
